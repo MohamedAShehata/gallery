@@ -32,6 +32,12 @@ namespace gallery
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.menuPage1 = new System.Windows.Forms.TabPage();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.singlePictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.multiPicturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.slideShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.imagesNamesList = new System.Windows.Forms.ListBox();
@@ -59,6 +65,7 @@ namespace gallery
             this.slideShowTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.menuPage1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.selectModePage2.SuspendLayout();
             this.ModePage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -87,6 +94,7 @@ namespace gallery
             // 
             this.menuPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.menuPage1.BackgroundImage = global::gallery.Properties.Resources.oqci8i0__4_;
+            this.menuPage1.ContextMenuStrip = this.contextMenuStrip1;
             this.menuPage1.Controls.Add(this.exitButton);
             this.menuPage1.Controls.Add(this.label1);
             this.menuPage1.Controls.Add(this.imagesNamesList);
@@ -103,6 +111,53 @@ namespace gallery
             this.menuPage1.TabIndex = 0;
             this.menuPage1.Text = "menu";
             this.menuPage1.Click += new System.EventHandler(this.menuPage1_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectModeToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(106, 48);
+            // 
+            // selectModeToolStripMenuItem
+            // 
+            this.selectModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.singlePictureToolStripMenuItem,
+            this.multiPicturesToolStripMenuItem,
+            this.slideShowToolStripMenuItem});
+            this.selectModeToolStripMenuItem.Name = "selectModeToolStripMenuItem";
+            this.selectModeToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.selectModeToolStripMenuItem.Text = "Mode";
+            this.selectModeToolStripMenuItem.Visible = false;
+            // 
+            // singlePictureToolStripMenuItem
+            // 
+            this.singlePictureToolStripMenuItem.Name = "singlePictureToolStripMenuItem";
+            this.singlePictureToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.singlePictureToolStripMenuItem.Text = "Single picture";
+            this.singlePictureToolStripMenuItem.Click += new System.EventHandler(this.OKButtonSelectModePage2_Click);
+            // 
+            // multiPicturesToolStripMenuItem
+            // 
+            this.multiPicturesToolStripMenuItem.Name = "multiPicturesToolStripMenuItem";
+            this.multiPicturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.multiPicturesToolStripMenuItem.Text = "Multi pictures";
+            this.multiPicturesToolStripMenuItem.Click += new System.EventHandler(this.OKButtonSelectModePage2_Click);
+            // 
+            // slideShowToolStripMenuItem
+            // 
+            this.slideShowToolStripMenuItem.Name = "slideShowToolStripMenuItem";
+            this.slideShowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.slideShowToolStripMenuItem.Text = "Slide show";
+            this.slideShowToolStripMenuItem.Click += new System.EventHandler(this.OKButtonSelectModePage2_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // exitButton
             // 
@@ -184,7 +239,7 @@ namespace gallery
             this.deletPicturesButton.Name = "deletPicturesButton";
             this.deletPicturesButton.Size = new System.Drawing.Size(168, 46);
             this.deletPicturesButton.TabIndex = 2;
-            this.deletPicturesButton.Text = "Delet picture";
+            this.deletPicturesButton.Text = "Delete picture";
             this.deletPicturesButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.deletPicturesButton.UseVisualStyleBackColor = false;
             this.deletPicturesButton.Click += new System.EventHandler(this.deletPicturesButton_Click);
@@ -230,6 +285,7 @@ namespace gallery
             // selectModePage2
             // 
             this.selectModePage2.BackgroundImage = global::gallery.Properties.Resources.oqci8i0__4_;
+            this.selectModePage2.ContextMenuStrip = this.contextMenuStrip1;
             this.selectModePage2.Controls.Add(this.OKButtonSelectModePage2);
             this.selectModePage2.Controls.Add(this.threeModesList);
             this.selectModePage2.Location = new System.Drawing.Point(4, 22);
@@ -278,6 +334,7 @@ namespace gallery
             // ModePage3
             // 
             this.ModePage3.BackgroundImage = global::gallery.Properties.Resources.oqci8i0__4_;
+            this.ModePage3.ContextMenuStrip = this.contextMenuStrip1;
             this.ModePage3.Controls.Add(this.readyToDisplayLabel);
             this.ModePage3.Controls.Add(this.OKPage3Button);
             this.ModePage3.Controls.Add(this.deletePage3Button);
@@ -371,6 +428,7 @@ namespace gallery
             this.multiShowPage4.BackColor = System.Drawing.Color.Transparent;
             this.multiShowPage4.BackgroundImage = global::gallery.Properties.Resources.oqci8i0__4_;
             this.multiShowPage4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.multiShowPage4.ContextMenuStrip = this.contextMenuStrip1;
             this.multiShowPage4.Controls.Add(this.flowLayoutPanel1);
             this.multiShowPage4.Location = new System.Drawing.Point(4, 22);
             this.multiShowPage4.Name = "multiShowPage4";
@@ -444,6 +502,7 @@ namespace gallery
             this.tabControl1.ResumeLayout(false);
             this.menuPage1.ResumeLayout(false);
             this.menuPage1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.selectModePage2.ResumeLayout(false);
             this.ModePage3.ResumeLayout(false);
             this.ModePage3.PerformLayout();
@@ -485,6 +544,12 @@ namespace gallery
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.StatusBarPanel statusBarPanel3;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem selectModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem multiPicturesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem singlePictureToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem slideShowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 

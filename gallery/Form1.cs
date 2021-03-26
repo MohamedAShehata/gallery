@@ -23,7 +23,7 @@ namespace gallery
         }
         private void imagesNamesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (imagesNamesList.SelectedIndex >= 0 && tabControl1.SelectedTab == ModePage3 && threeModesList.SelectedIndex > 0)
+            if (imagesNamesList.SelectedIndex >= 0 && tabControl1.SelectedTab == ModePage3 && (statusBar1.Panels[1].Text != "Single picture Mode"))
             {
                 OKPage3Button.Enabled = true;
                 string imageName = ((IMAGEDATA)(imagesNamesList.SelectedItem)).location;
@@ -40,7 +40,7 @@ namespace gallery
             {
                 deletPicturesButton.Enabled = true;
             }
-            else if (tabControl1.SelectedTab == ModePage3 && threeModesList.SelectedIndex == 0 && imagesNamesList.SelectedIndex >= 0)
+            else if (tabControl1.SelectedTab == ModePage3 && (statusBar1.Panels[1].Text == "Single picture Mode") && imagesNamesList.SelectedIndex >= 0)
             {
                 OKPage3Button.Enabled = true;
             }
@@ -107,6 +107,8 @@ namespace gallery
         }
         private void OKButtonMenu_Click(object sender, EventArgs e)
         {
+            threeModesList.SelectedIndex = -1;
+            selectModeToolStripMenuItem.Visible = true;
             exitButton.Parent = selectModePage2;
             GobackButton.Parent = selectModePage2;
             GobackButton.Enabled = true;
@@ -114,28 +116,53 @@ namespace gallery
         }
         private void OKButtonSelectModePage2_Click(object sender, EventArgs e)
         {
+            selectModeToolStripMenuItem.Visible = false;
             imagesNamesList.Parent = ModePage3;
+            imagesNamesList.SelectedIndex = -1;
             label1.Parent = ModePage3;
             GobackButton.Parent = ModePage3;
             exitButton.Parent = ModePage3;
             tabControl1.SelectedTab = ModePage3;
-            switch (threeModesList.SelectedIndex)
-            {
-                case 0:
-                    statusBar1.Panels[1].Text = "Single Mode";
-                    SingleMode();
-                    break;
-                case 1:
-                    statusBar1.Panels[1].Text = "Multi-Picture Mode";
-                    MultiMode();
-                    break;
-                default:
-                    statusBar1.Panels[1].Text = "Slide Show Mode";
-                    SlideShowMode();
-                    break;
-
-            }
             OKButtonSelectModePage2.Enabled = false;
+            if (sender is Button)
+            {
+                switch (threeModesList.SelectedIndex)
+                {
+                    case 0:
+                        statusBar1.Panels[1].Text = "Single picture Mode";
+                        SingleMode();
+                        break;
+                    case 1:
+                        statusBar1.Panels[1].Text = "Multi-Picture Mode";
+                        MultiMode();
+                        break;
+                    default:
+                        statusBar1.Panels[1].Text = "Slide Show Mode";
+                        SlideShowMode();
+                        break;
+
+                }
+            }
+            else
+            {
+                var clickedMenuItem = sender as ToolStripMenuItem;
+                switch (clickedMenuItem.Text)
+                {
+                    case "Single picture":
+                        statusBar1.Panels[1].Text = "Single picture Mode";
+                        SingleMode();
+                        break;
+                    case "Multi pictures":
+                        statusBar1.Panels[1].Text = "Multi-Picture Mode";
+                        MultiMode();
+                        break;
+                    default:
+                        statusBar1.Panels[1].Text = "Slide Show Mode";
+                        SlideShowMode();
+                        break;
+
+                }
+            }
         }
         private void OKPage3Button_Click(object sender, EventArgs e)
         {
@@ -145,12 +172,12 @@ namespace gallery
             imagesNamesList.Visible = false;
             label1.Visible = false;
             readyToDisplayLabel.Visible = false;
-            switch (threeModesList.SelectedIndex)
+            switch (statusBar1.Panels[1].Text)
             {
-                case 0:
+                case "Single picture Mode":
                     SingleDisply();
                     break;
-                case 2:
+                case "Slide Show Mode":
                     SlideShowDisply();
                     break;
                 default:
@@ -161,21 +188,29 @@ namespace gallery
         }
         private void GobackButton_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Visible == true|| tabControl1.SelectedTab == multiShowPage4)
+            if (pictureBox1.Visible == true || tabControl1.SelectedTab == multiShowPage4)
             {
-                if(tabControl1.SelectedTab == multiShowPage4)
+                if (tabControl1.SelectedTab == multiShowPage4)
                 {
                     tabControl1.SelectedIndex--;
                     GobackButton.Parent = tabControl1.SelectedTab;
                     exitButton.Parent = tabControl1.SelectedTab;
                 }
+                imagesNamesList.SelectedIndex = -1;
                 OKPage3Button.Visible = true;
-                deletePage3Button.Visible = true;
-                deletePage3Button.Enabled = false;
-                DisplayList.Visible = true;
+                if (statusBar1.Panels[1].Text != "Single picture Mode")
+                {
+                    deletePage3Button.Visible = true;
+                    deletePage3Button.Enabled = false;
+                    DisplayList.Visible = true;
+                    readyToDisplayLabel.Visible = true;
+                }
+                else if(statusBar1.Panels[1].Text == "Single picture Mode")
+                {
+                    OKPage3Button.Enabled = false;
+                }
                 imagesNamesList.Visible = true;
                 label1.Visible = true;
-                readyToDisplayLabel.Visible = true;
                 pictureBox1.Visible = false;
                 slideShowTimer.Stop();
                 DisplayList.SelectedIndex = -1;
@@ -185,11 +220,12 @@ namespace gallery
                 tabControl1.SelectedIndex -= 1;
                 if (tabControl1.SelectedTab == selectModePage2)
                 {
+                    OKButtonSelectModePage2.Enabled = false;
+                    selectModeToolStripMenuItem.Visible = true;
                     statusBar1.Panels[1].Text = "";
                     deletePage3Button.Enabled = false;
                     readyToDisplayLabel.Visible = false;
                     threeModesList.SelectedIndex = -1;
-                    OKPage3Button.Visible = true;
                     DisplayList.Visible = true;
                     imagesNamesList.Visible = true;
                     pictureBox1.Visible = false;
@@ -202,6 +238,7 @@ namespace gallery
                 exitButton.Parent = tabControl1.SelectedTab;
                 if (tabControl1.SelectedIndex == 0)
                 {
+                    selectModeToolStripMenuItem.Visible = false;
                     GobackButton.Enabled = false;
                 }
             }
@@ -243,8 +280,8 @@ namespace gallery
             flowLayoutPanel1.Controls.Clear();
             GobackButton.Parent = multiShowPage4;
             exitButton.Parent = multiShowPage4;
-           tabControl1.SelectedTab = multiShowPage4;
-            int Width = flowLayoutPanel1.Size.Width, Height = flowLayoutPanel1.Size.Height, x = 0, y = 0, numWidth, numHeight, imgCnt = DisplayList.Items.Count;
+            tabControl1.SelectedTab = multiShowPage4;
+            int Width = flowLayoutPanel1.Size.Width, Height = flowLayoutPanel1.Size.Height, numWidth, numHeight, imgCnt = DisplayList.Items.Count;
             numWidth = (int)Math.Floor(Math.Sqrt(imgCnt));
             numHeight = (int)Math.Ceiling(1.0 * imgCnt / numWidth);
             foreach (var img in DisplayList.Items)
@@ -254,15 +291,6 @@ namespace gallery
                 picBox.SizeMode = PictureBoxSizeMode.StretchImage;
                 picBox.ImageLocation = ((IMAGEDATA)(img)).location;
                 flowLayoutPanel1.Controls.Add(picBox);
-                if (x + 2 * Width > this.Size.Width)
-                {
-                    x = 0;
-                    y += Height;
-                }
-                else
-                {
-                    x += Width;
-                }
             }
         }
         private void SlideShowDisply()
@@ -289,7 +317,6 @@ namespace gallery
         {
             go();
         }
-
     }
 
     /*************************************************************************************************************************/
